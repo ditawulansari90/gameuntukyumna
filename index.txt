@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aplikasi Belajar Membaca Kelas 2 SD - KVKV & KVKVK</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #fff5f8 0%, #eef2ff 100%);
+      min-height: 100vh;
+    }
+    h1, h2, h3, .font-heading {
+      font-family: 'Fredoka', cursive;
+    }
+    .bounce-subtle {
+      animation: bounce 2s infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+    .syllable-highlight:hover {
+      background-color: #fef08a;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Custom Scrollbar for better UX */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #f472b6;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800 antialiased selection:bg-pink-200 selection:text-pink-800">
+
+  <header class="bg-white/80 backdrop-blur-md sticky top-0 z-50 border-b border-pink-100 shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <div class="bg-gradient-to-tr from-pink-500 to-rose-400 text-white p-2.5 rounded-2xl shadow-md">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+          </svg>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-bold bg-gradient-to-r from-pink-600 to-purple-600 bg-clip-text text-transparent">
+            Latihan Membaca SD
+          </h1>
+          <p class="text-xs text-slate-500 font-medium">Pola KVKV & KVKVK • Kelas 2</p>
+        </div>
+      </div>
+
+      <!-- Module Selector Dropdown -->
+      <div class="flex items-center space-x-2">
+        <label for="module-select" class="hidden sm:inline text-xs font-semibold text-slate-500">Pilih Modul:</label>
+        <select id="module-select" onchange="switchModule(this.value)" class="bg-pink-50 border-2 border-pink-200 text-pink-700 text-sm font-bold rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-pink-400 cursor-pointer transition">
+          <option value="0">1. Baju Luna</option>
+          <option value="1">2. Kuda Budi</option>
+          <option value="2">3. Topi Roni</option>
+          <option value="3">4. Kucing Miti</option>
+          <option value="4">5. Rumah Rudi</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow max-w-4xl w-full mx-auto p-4 md:p-6 space-y-6">
+
+    <!-- Progress Tracker Bar -->
+    <div class="bg-white rounded-2xl p-4 shadow-sm border border-pink-100 flex items-center justify-between">
+      <div class="flex items-center space-x-2">
+        <span class="text-2xl font-heading font-bold text-pink-500" id="current-mod-num">Modul 1</span>
+        <span class="text-slate-400 text-sm font-semibold">/ 5</span>
+      </div>
+      <div class="flex space-x-1.5" id="progress-dots">
+        <!-- Dots generated dynamically -->
+      </div>
+    </div>
+
+    <!-- Story Card Section -->
+    <div class="bg-white rounded-3xl shadow-xl shadow-pink-500/5 border border-pink-100 overflow-hidden transition-all duration-300">
+      
+      <!-- Card Header Accent -->
+      <div class="bg-gradient-to-r from-pink-400 via-rose-400 to-purple-400 p-4 text-white flex justify-between items-center">
+        <h2 id="story-title" class="text-2xl md:text-3xl font-bold tracking-wide">Baju Luna</h2>
+        <span class="bg-white/20 backdrop-blur-md text-xs font-semibold px-3 py-1 rounded-full text-white">
+          KVKV & KVKVK
+        </span>
+      </div>
+
+      <div class="p-6 md:p-8 grid md:grid-cols-12 gap-6 items-center">
+        
+        <!-- Illustration Display -->
+        <div class="md:col-span-5 flex flex-col items-center justify-center bg-pink-50/60 rounded-2xl p-6 border border-pink-100 relative min-h-[220px]">
+          <div id="illustration-container" class="w-full flex justify-center items-center drop-shadow-md">
+            <!-- SVG Illustration inserted via JS -->
+          </div>
+        </div>
+
+        <!-- Story Reading Block -->
+        <div class="md:col-span-7 space-y-5">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Teks Bacaan</span>
+            <button onclick="playSpeech()" class="inline-flex items-center space-x-2 bg-pink-500 hover:bg-pink-600 text-white font-bold text-sm px-4 py-2 rounded-full shadow-md shadow-pink-500/20 active:scale-95 transition transform">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"></path>
+              </svg>
+              <span>Dengar Cerita</span>
+            </button>
+          </div>
+
+          <!-- Story Text Block with Syllables -->
+          <div id="story-lines" class="space-y-2 text-xl md:text-2xl font-bold text-slate-700 leading-relaxed">
+            <!-- Dynamic lines rendered here -->
+          </div>
+
+          <p class="text-xs text-slate-400 italic font-medium pt-2">
+            💡 Tips Guru: Kata berwarna selang-seling menunjukkan pemisahan suku kata (KVKV / KVKVK).
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-xl shadow-purple-500/5 border border-purple-100 p-6 md:p-8 space-y-6">
+      <div class="flex items-center justify-between border-b border-purple-100 pb-4">
+        <div>
+          <h3 class="text-xl font-bold text-purple-900">Uji Pemahaman Isi Cerita</h3>
+          <p class="text-xs text-slate-500 font-medium">Isilah tempat kosong di bawah ini sesuai bacaan di atas!</p>
+        </div>
+        <div class="bg-purple-50 text-purple-700 px-3 py-1 rounded-xl text-xs font-bold border border-purple-200">
+          Isian Singkat
+        </div>
+      </div>
+
+      <!-- Questions Form Container -->
+      <div id="questions-container" class="space-y-4">
+        <!-- Questions injected dynamically -->
+      </div>
+
+      <!-- Action Button & Score Display -->
+      <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-slate-100">
+        <button onclick="checkAnswers()" class="w-full sm:w-auto bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-heading text-lg font-bold px-8 py-3 rounded-2xl shadow-lg shadow-teal-500/20 active:scale-95 transition transform">
+          ✔ Periksa Jawaban
+        </button>
+
+        <div id="quiz-result" class="hidden w-full sm:w-auto p-4 rounded-2xl text-center flex items-center justify-center space-x-3 transition-all duration-300">
+          <!-- Score Result Content -->
+        </div>
+      </div>
+
+    </div>
+
+    <div class="flex items-center justify-between pt-2">
+      <button id="btn-prev" onclick="navigateModule(-1)" class="inline-flex items-center space-x-2 bg-white border-2 border-slate-200 hover:border-pink-300 text-slate-600 hover:text-pink-600 font-bold px-5 py-2.5 rounded-2xl shadow-sm transition">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"></path>
+        </svg>
+        <span>Modul Sebelumnya</span>
+      </button>
+
+      <button id="btn-next" onclick="navigateModule(1)" class="inline-flex items-center space-x-2 bg-pink-500 hover:bg-pink-600 text-white font-bold px-6 py-2.5 rounded-2xl shadow-md shadow-pink-500/20 transition">
+        <span>Modul Selanjutnya</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="mt-auto py-6 text-center text-xs text-slate-400 font-medium">
+    Media Pembelajaran Membaca Interaktif Kelas 2 SD • Pola Kata KVKV & KVKVK
+  </footer>
+
+  <script>
+    // Database Modul Cerita
+    const modulesData = [
+      {
+        id: 0,
+        title: "Baju Luna",
+        speechText: "ini baju luna. baju hari raya. luna beli baru. warna merah muda. luna suka sekali.",
+        lines: [
+          "ini baju luna",
+          "baju hari raya",
+          "luna beli baru",
+          "warna merah muda",
+          "luna suka sekali"
+        ],
+        svg: `<svg class="w-44 h-44" viewBox="0 0 100 100">
+                <path d="M 30 20 Q 50 28 70 20 L 88 36 L 76 44 L 76 85 Q 50 92 24 85 L 24 44 L 12 36 Z" fill="#f472b6" stroke="#db2777" stroke-width="2.5" stroke-linejoin="round"/>
+                <path d="M 30 20 Q 50 32 70 20" fill="none" stroke="#ffffff" stroke-width="3"/>
+                <circle cx="50" cy="48" r="2.5" fill="#ffffff"/>
+                <circle cx="50" cy="60" r="2.5" fill="#ffffff"/>
+                <path d="M 24 85 Q 50 92 76 85" stroke="#ffffff" stroke-width="3" fill="none"/>
+              </svg>`,
+        questions: [
+          { text: "1. ini baju", inputs: [{ id: "m0_q1", ans: "luna" }] },
+          { text: "2. baju hari", inputs: [{ id: "m0_q2", ans: "raya" }] },
+          { text: "3. luna beli", inputs: [{ id: "m0_q3", ans: "baru" }] },
+          { text: "4. warna", inputs: [{ id: "m0_q4_1", ans: "merah" }, { id: "m0_q4_2", ans: "muda" }] },
+          { text: "5. luna suka", inputs: [{ id: "m0_q5", ans: "sekali" }] }
+        ]
+      },
+      {
+        id: 1,
+        title: "Kuda Budi",
+        speechText: "ini kuda budi. kuda budi lari cepat. warna kuda budi cokelat. budi suka naik kuda.",
+        lines: [
+          "ini kuda budi",
+          "kuda budi lari cepat",
+          "warna kuda budi cokelat",
+          "budi suka naik kuda"
+        ],
+        svg: `<svg class="w-44 h-44" viewBox="0 0 100 100">
+                <!-- Simple Cute Horse SVG -->
+                <path d="M 25 75 L 30 50 C 25 40 25 30 35 20 C 45 10 60 15 65 25 C 70 30 80 35 80 45 C 80 50 75 55 70 55 L 60 55 L 60 75 L 50 75 L 50 60 L 35 60 L 35 75 Z" fill="#b45309" stroke="#78350f" stroke-width="2.5"/>
+                <circle cx="55" cy="22" r="2.5" fill="#ffffff"/>
+                <path d="M 35 20 C 30 15 25 25 25 35" fill="none" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+                <path d="M 70 55 C 75 60 85 60 85 70" fill="none" stroke="#451a03" stroke-width="4" stroke-linecap="round"/>
+              </svg>`,
+        questions: [
+          { text: "1. ini kuda", inputs: [{ id: "m1_q1", ans: "budi" }] },
+          { text: "2. kuda budi lari", inputs: [{ id: "m1_q2", ans: "cepat" }] },
+          { text: "3. warna kuda", inputs: [{ id: "m1_q3", ans: "cokelat" }] },
+          { text: "4. budi suka naik", inputs: [{ id: "m1_q4", ans: "kuda" }] }
+        ]
+      },
+      {
+        id: 2,
+        title: "Topi Roni",
+        speechText: "ini topi roni. roni beli di kota. topi roni warna biru. roni pakai topi saat panas.",
+        lines: [
+          "ini topi roni",
+          "roni beli di kota",
+          "topi roni warna biru",
+          "roni pakai topi saat panas"
+        ],
+        svg: `<svg class="w-44 h-44" viewBox="0 0 100 100">
+                <!-- Cute Cap SVG -->
+                <ellipse cx="50" cy="65" rx="42" ry="12" fill="#2563eb" stroke="#1d4ed8" stroke-width="2.5"/>
+                <path d="M 22 62 C 22 30 78 30 78 62 Z" fill="#3b82f6" stroke="#1d4ed8" stroke-width="2.5"/>
+                <path d="M 50 30 L 50 62" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="3,3"/>
+                <circle cx="50" cy="30" r="4" fill="#fbbf24"/>
+              </svg>`,
+        questions: [
+          { text: "1. ini topi", inputs: [{ id: "m2_q1", ans: "roni" }] },
+          { text: "2. roni beli di", inputs: [{ id: "m2_q2", ans: "kota" }] },
+          { text: "3. topi roni warna", inputs: [{ id: "m2_q3", ans: "biru" }] },
+          { text: "4. roni pakai topi saat", inputs: [{ id: "m2_q4", ans: "panas" }] }
+        ]
+      },
+      {
+        id: 3,
+        title: "Kucing Miti",
+        speechText: "miti kucing maya. bulu miti tebal sekali. miti suka minum susu. maya sayang pada miti.",
+        lines: [
+          "miti kucing maya",
+          "bulu miti tebal sekali",
+          "miti suka minum susu",
+          "maya sayang pada miti"
+        ],
+        svg: `<svg class="w-44 h-44" viewBox="0 0 100 100">
+                <!-- Cute Cat SVG -->
+                <path d="M 30 35 L 20 15 L 40 25 Z" fill="#f97316" stroke="#ea580c" stroke-width="2"/>
+                <path d="M 70 35 L 80 15 L 60 25 Z" fill="#f97316" stroke="#ea580c" stroke-width="2"/>
+                <circle cx="50" cy="45" r="28" fill="#fb923c" stroke="#ea580c" stroke-width="2.5"/>
+                <circle cx="40" cy="40" r="3" fill="#431407"/>
+                <circle cx="60" cy="40" r="3" fill="#431407"/>
+                <polygon points="50,47 46,52 54,52" fill="#f43f5e"/>
+                <path d="M 42 56 Q 50 62 58 56" fill="none" stroke="#431407" stroke-width="2" stroke-linecap="round"/>
+                <!-- Whiskers -->
+                <line x1="20" y1="45" x2="32" y2="46" stroke="#ea580c" stroke-width="2"/>
+                <line x1="22" y1="52" x2="33" y2="50" stroke="#ea580c" stroke-width="2"/>
+                <line x1="80" y1="45" x2="68" y2="46" stroke="#ea580c" stroke-width="2"/>
+                <line x1="78" y1="52" x2="67" y2="50" stroke="#ea580c" stroke-width="2"/>
+              </svg>`,
+        questions: [
+          { text: "1. miti kucing", inputs: [{ id: "m3_q1", ans: "maya" }] },
+          { text: "2. bulu miti", inputs: [{ id: "m3_q2_1", ans: "tebal" }, { id: "m3_q2_2", ans: "sekali" }] },
+          { text: "3. miti suka minum", inputs: [{ id: "m3_q3", ans: "susu" }] },
+          { text: "4. maya sayang pada", inputs: [{ id: "m3_q4", ans: "miti" }] }
+        ]
+      },
+      {
+        id: 4,
+        title: "Rumah Rudi",
+        speechText: "ini rumah rudi. rumah rudi ada taman. banyak bunga warna warni. rudi rajin sapu halaman.",
+        lines: [
+          "ini rumah rudi",
+          "rumah rudi ada taman",
+          "banyak bunga warna warni",
+          "rudi rajin sapu halaman"
+        ],
+        svg: `<svg class="w-44 h-44" viewBox="0 0 100 100">
+                <!-- Cute House SVG -->
+                <polygon points="50,15 15,45 85,45" fill="#ef4444" stroke="#b91c1c" stroke-width="2.5"/>
+                <rect x="25" y="45" width="50" height="40" fill="#fde047" stroke="#ca8a04" stroke-width="2.5"/>
+                <rect x="42" y="60" width="16" height="25" fill="#854d0e" rx="2"/>
+                <rect x="30" y="52" width="10" height="10" fill="#67e8f9" stroke="#0284c7" stroke-width="1.5"/>
+                <rect x="60" y="52" width="10" height="10" fill="#67e8f9" stroke="#0284c7" stroke-width="1.5"/>
+                <circle cx="20" cy="80" r="6" fill="#22c55e"/>
+                <circle cx="80" cy="80" r="6" fill="#ec4899"/>
+              </svg>`,
+        questions: [
+          { text: "1. ini rumah", inputs: [{ id: "m4_q1", ans: "rudi" }] },
+          { text: "2. rumah rudi ada", inputs: [{ id: "m4_q2", ans: "taman" }] },
+          { text: "3. banyak bunga warna", inputs: [{ id: "m4_q3", ans: "warni" }] },
+          { text: "4. rudi rajin sapu", inputs: [{ id: "m4_q4", ans: "halaman" }] }
+        ]
+      }
+    ];
+
+    let currentModuleIndex = 0;
+
+    function colorizeSyllables(text) {
+      const words = text.split(' ');
+      return words.map(word => {
+        // Simple syllable splitter for KVKV / KVKVK patterns (2-3 chars per chunk)
+        if (word.length <= 3) {
+          return `<span class="text-pink-600">${word}</span>`;
+        } else if (word.length === 4) { // e.g. ba-ju
+          return `<span class="text-pink-600">${word.slice(0, 2)}</span><span class="text-indigo-600">${word.slice(2)}</span>`;
+        } else if (word.length === 5) { // e.g. ma-can
+          return `<span class="text-pink-600">${word.slice(0, 2)}</span><span class="text-indigo-600">${word.slice(2)}</span>`;
+        } else if (word.length === 6) { // e.g. se-ka-li
+          return `<span class="text-pink-600">${word.slice(0, 2)}</span><span class="text-indigo-600">${word.slice(2, 4)}</span><span class="text-teal-600">${word.slice(4)}</span>`;
+        } else {
+          return `<span class="text-slate-800">${word}</span>`;
+        }
+      }).join(' ');
+    }
+
+    function renderModule(index) {
+      currentModuleIndex = index;
+      const mod = modulesData[index];
+
+      // Update Header & Dropdown
+      document.getElementById('module-select').value = index;
+      document.getElementById('current-mod-num').innerText = `Modul ${index + 1}`;
+      document.getElementById('story-title').innerText = mod.title;
+
+      // Render Progress Dots
+      const dotsContainer = document.getElementById('progress-dots');
+      dotsContainer.innerHTML = modulesData.map((m, i) => `
+        <div class="w-3 h-3 rounded-full transition-all duration-300 ${i === index ? 'bg-pink-500 w-6' : 'bg-pink-200'}"></div>
+      `).join('');
+
+      // Render Illustration
+      document.getElementById('illustration-container').innerHTML = mod.svg;
+
+      // Render Story Text with Syllables
+      const storyLinesContainer = document.getElementById('story-lines');
+      storyLinesContainer.innerHTML = mod.lines.map(line => `
+        <p class="leading-relaxed font-semibold">${colorizeSyllables(line)}</p>
+      `).join('');
+
+      // Render Questions Form
+      const qContainer = document.getElementById('questions-container');
+      qContainer.innerHTML = mod.questions.map((q, qIdx) => {
+        let inputHTML = q.inputs.map(inp => `
+          <input type="text" id="${inp.id}" 
+            autocomplete="off"
+            placeholder="..."
+            class="w-28 sm:w-32 text-center px-3 py-1.5 bg-purple-50/70 border-2 border-purple-200 focus:border-purple-500 focus:bg-white text-purple-900 font-bold rounded-xl outline-none transition duration-200 text-lg">
+        `).join(' ');
+
+        return `
+          <div class="flex flex-wrap items-center gap-2 text-slate-700 font-bold text-lg md:text-xl bg-slate-50 p-3.5 rounded-2xl border border-slate-100">
+            <span>${q.text}</span>
+            ${inputHTML}
+          </div>
+        `;
+      }).join('');
+
+      // Reset Quiz Result View
+      const resDiv = document.getElementById('quiz-result');
+      resDiv.classList.add('hidden');
+      resDiv.className = "hidden w-full sm:w-auto p-4 rounded-2xl text-center flex items-center justify-center space-x-3 transition-all duration-300";
+
+      // Disable/Enable Navigation Buttons
+      document.getElementById('btn-prev').disabled = (index === 0);
+      document.getElementById('btn-prev').style.opacity = (index === 0) ? "0.5" : "1";
+
+      document.getElementById('btn-next').disabled = (index === modulesData.length - 1);
+      document.getElementById('btn-next').style.opacity = (index === modulesData.length - 1) ? "0.5" : "1";
+    }
+
+    function playSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel(); // Stop active speech
+        const mod = modulesData[currentModuleIndex];
+        const utterance = new SpeechSynthesisUtterance(mod.speechText);
+        utterance.lang = 'id-ID';
+        utterance.rate = 0.8; // Friendly slow speed for kids
+        utterance.pitch = 1.1;
+        window.speechSynthesis.speak(utterance);
+      } else {
+        alert("Perangkat Anda tidak mendukung fitur suara bawaan (Speech Synthesis).");
+      }
+    }
+
+    function checkAnswers() {
+      const mod = modulesData[currentModuleIndex];
+      let totalInputs = 0;
+      let correctInputs = 0;
+
+      mod.questions.forEach(q => {
+        q.inputs.forEach(inp => {
+          totalInputs++;
+          const el = document.getElementById(inp.id);
+          const val = el.value.toLowerCase().trim();
+
+          if (val === inp.ans.toLowerCase()) {
+            correctInputs++;
+            el.classList.remove('border-purple-200', 'border-red-400', 'bg-red-50');
+            el.classList.add('border-emerald-500', 'bg-emerald-50', 'text-emerald-800');
+          } else {
+            el.classList.remove('border-purple-200', 'border-emerald-500', 'bg-emerald-50');
+            el.classList.add('border-red-400', 'bg-red-50', 'text-red-800');
+          }
+        });
+      });
+
+      // Display Result Badge
+      const resDiv = document.getElementById('quiz-result');
+      resDiv.classList.remove('hidden');
+
+      if (correctInputs === totalInputs) {
+        resDiv.className = "w-full sm:w-auto p-4 rounded-2xl text-center flex items-center justify-center space-x-2 bg-emerald-500 text-white font-heading font-bold text-lg shadow-lg bounce-subtle";
+        resDiv.innerHTML = `
+          <span>⭐⭐⭐ Hebat Sekali! Semua Jawaban Benar! 🎉</span>
+        `;
+      } else {
+        resDiv.className = "w-full sm:w-auto p-4 rounded-2xl text-center flex items-center justify-center space-x-2 bg-amber-500 text-white font-heading font-bold text-lg shadow-md";
+        resDiv.innerHTML = `
+          <span>Nilai: ${correctInputs} / ${totalInputs} • Coba periksa lagi yang berwarna merah ya!</span>
+        `;
+      }
+    }
+
+    function switchModule(index) {
+      renderModule(parseInt(index));
+    }
+
+    function navigateModule(direction) {
+      const newIndex = currentModuleIndex + direction;
+      if (newIndex >= 0 && newIndex < modulesData.length) {
+        renderModule(newIndex);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+
+    // Initialize Application
+    window.onload = function() {
+      renderModule(0);
+    };
+  </script>
+</body>
+</html>
